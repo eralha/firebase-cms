@@ -1,0 +1,59 @@
+<section ng-controller="categoriasCtrll">
+
+	<h1>Categorias</h1>
+
+	<form class="form-inline mb_20" ng-model="addCategoriaForm">
+	  <div class="form-group" 
+	  		ng-class="{
+	  			'has-success': canAdd(addCategoriaNome) == true, 
+	  			'has-feedback': canAdd(addCategoriaNome) == true, 
+	  			'has-error': canAdd(addCategoriaNome)  == false
+	  		}">
+	    <label class="control-label" for="addCategoriaNome">Adicionar uma nova categoria: </label>
+	    <input type="text" class="form-control" id="addCategoriaNome" name="addCategoriaNome" ng-model="addCategoriaNome" placeholder="Nome Categoria" />
+	  </div>
+	  <div class="form-group" >
+	    <label class="control-label" for="addCategoriaNome">Pai: </label>
+	    <select class="form-control" ng-model="addCategoriaPai">
+	      <option value="0">Nenhum</option>
+		  <option ng-repeat="categoria in categorias" value="{{::categoria.$id}}">{{::categoria.nome}}</option>
+		</select>
+	  </div>
+	  <button class="btn btn-primary" ng-click="adicionarCategoria()">Adicionar Categoria</button>
+	</form>
+
+	  <table class="table">
+	    <tr>
+	      <td><b>Nome Categoria</b></td>
+	      <td><b>Categoria Pai</b></td>
+	      <td><b>Acções</b></td>
+	    </tr>
+	    <tr ng-repeat="categoria in categorias track by categoria.$id">
+	      <td>
+	      	<div ng-if="!editing[categoria.$id]">{{categoria.nome}}</div>
+	      	<div ng-if="editing[categoria.$id]">
+	      		<form class="form-inline" ng-model="addCategoriaForm">
+				  <div class="form-group" 
+				  		ng-class="{
+				  			'has-success': canSave(categoria.nome) == 1, 
+				  			'has-feedback': canSave(categoria.nome) == 1, 
+				  			'has-error': canSave(categoria.nome)  > 1
+				  		}">
+				    <input type="text" class="form-control" id="addCategoriaNome" ng-model="categoria.nome"/>
+				    <span class="glyphicon glyphicon-ok form-control-feedback"></span>
+				  </div>
+				  <button class="btn btn-primary btn-xs" ng-click="guardarCategoria(categoria)">Guardar</button>
+				</form>
+	      	</div>
+	      </td>
+	      <td>{{categorias.$getRecord(categoria.pai).nome}}</td>
+	      <td>
+	        <button class="btn btn-primary btn-xs" ng-click="toggleEdit(categoria.$id);">Editar</button>
+	        <button class="btn btn-danger btn-xs" ng-click="categorias.$remove(categoria);">Apagar</button>
+	      </td>
+	    </tr>
+	  </table>
+
+	  <p ng-if="categorias.length == 0">Não existem categoria associadas.</p>
+
+</section>

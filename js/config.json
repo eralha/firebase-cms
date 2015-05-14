@@ -1,0 +1,5 @@
+[{
+  "firebaseRef"		: "https://er-angular-cms.firebaseio.com/",
+  "categoriasRef"	: "https://er-angular-cms.firebaseio.com/categorias",
+  "paginasRef"		: "https://er-angular-cms.firebaseio.com/paginas"
+}]

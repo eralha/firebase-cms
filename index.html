@@ -1,0 +1,79 @@
+﻿<!doctype html>
+<!--[if IE 7]>    <html class="ie oldie ie7" lang="pt"> <![endif]-->
+<!--[if IE 8]>    <html class="ie oldie ie8" lang="pt"> <![endif]-->
+<!--[if IE]>      <html class="ie" lang="pt"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="pt"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">   
+
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'KEY', 'DOMAIN');
+    ga('send', 'pageview');
+  </script>
+  
+  <!-- BOOTSTRAP Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  
+  <!-- FIREBASE -->
+	<script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
+    
+  <!-- favicon -->
+  <link rel="shortcut icon" href="/images/favicon.ico" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <!-- LESS -->
+  <link rel="stylesheet/less" type="text/css" href="/css/less/style.less">
+  <script src="/js/src/lib/less-1.3.3.min.js"></script>
+  
+  <!-- JQUERY -->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="/js/libs/jquery-1.9.1.min.js"><\/script>')</script>
+  
+  <!-- MAIN SCRIPTS -->
+  <script data-main="/js/main" src="/js/src/lib/require.js"></script>
+
+</head>
+<body ng-controller="mainCtrll">
+<!--[if lt IE 8]>  
+  <div class="chromeframe">O seu browser de internet é <b>muito</b> antigo. <a href="http://browsehappy.com/">Actualize para um mais recente</a> ou <a href="http://www.google.com/chromeframe/?redirect=true&hl=pt-PT&quickenable=true">instale a Google Chrome Frame</a> para uma melhor experiência.</div><![endif]-->
+
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Front-end CMS with Firebase</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            
+          <!-- CATEGORIAS LIST -->
+          <nav-tree data="categorias" id-items="0"></nav-tree>
+
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          
+          <!-- NG VIEW -->
+          <div ng-view></div>
+
+        </div>
+      </div>
+    </div>
+
+</body>
+</html>
