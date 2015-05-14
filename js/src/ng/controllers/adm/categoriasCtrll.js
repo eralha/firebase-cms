@@ -1,9 +1,11 @@
 define(['app'], function(app){
 
-	app.controller('categoriasCtrll', ['$scope', '$firebaseArray', 'Slug', 'appConfig', function($scope, $firebaseArray, Slug, appConfig){
+	app.controller('categoriasCtrll', ['$scope', '$firebaseArray', 'Slug', 'configService', function($scope, $firebaseArray, Slug, configService){
 
-		var categoriasRef = new Firebase(appConfig.categoriasRef);
+		configService.load().then(function(appConfig){
+            var categoriasRef = new Firebase(appConfig.categoriasRef);
 			$scope.categorias = $firebaseArray(categoriasRef);
+        });
 
 		$scope.editing = {};
 

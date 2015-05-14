@@ -5,12 +5,19 @@ define([], function()
     services.factory('configService', ['$q', '$http', function($q, $http) {
 
       var sup = this;
+      this.data = null;
 
       this.load = function(){
         var defer = $q.defer();
 
+        if(this.data != null){
+          defer.resolve(this.data);
+          return defer.promise;
+        }
+
         $http.get('/js/config.json').success(function(data, status, headers, config) {
-          console.log(data);
+          sup.data = data[0];
+          defer.resolve(sup.data);
         }).error(function(data, status, headers, config) {
           // called asynchronously if an error occurs
           // or server returns response with an error status.
@@ -23,32 +30,37 @@ define([], function()
 
     }]);
 
-    services.factory('datService', ['$q', '$http', 'appConfig', 'configService', function($q, $http, appConfig, configService) {
+    services.factory('datService', ['$q', '$http', 'configService', function($q, $http, configService) {
 
-        var sup = this;
-        this.categorias = null;
-        this.paginas = null;
+      var sup = this;
+      this.categorias = null;
+      this.paginas = null;
 
-        var categoriasRef = new Firebase(appConfig.categoriasRef);
-        var paginasRef = new Firebase(appConfig.paginasRef);
-
-
-        configService.load();
+      var categoriasRef = null;
+      var paginasRef = null;
 
 
       this.loadData = function(){
         var defer = $q.defer();
 
-        categoriasRef.on('value', function(dataSnapshot) {
-          var categorias = dataSnapshot.val();
+        if(categoriasRef == null && paginasRef == null){
+          configService.load().then(function(data){
 
-          paginasRef.on('value', function(dataSnapshot) {
-            Firebase.goOffline();
-            var paginas = dataSnapshot.val();
+            categoriasRef = new Firebase(data.categoriasRef);
+            paginasRef = new Firebase(data.paginasRef);
 
-            defer.resolve({categorias: categorias, paginas: paginas});
+            categoriasRef.on('value', function(dataSnapshot) {
+              var categorias = dataSnapshot.val();
+
+              paginasRef.on('value', function(dataSnapshot) {
+                Firebase.goOffline();
+                var paginas = dataSnapshot.val();
+
+                defer.resolve({categorias: categorias, paginas: paginas});
+              });
+            });
           });
-        });
+        }
 
         return defer.promise;
       }

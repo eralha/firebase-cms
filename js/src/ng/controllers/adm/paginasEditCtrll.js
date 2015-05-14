@@ -1,20 +1,22 @@
 define(['app'], function(app){
 
-	app.controller('paginasEditCtrll', ['$scope', '$firebaseArray', 'Slug', '$routeParams', 'appConfig', 
-									function($scope, $firebaseArray, Slug, $routeParams, appConfig){
+	app.controller('paginasEditCtrll', ['$scope', '$firebaseArray', 'Slug', '$routeParams', 'configService', 
+									function($scope, $firebaseArray, Slug, $routeParams, configService){
 
 		$scope.page = {};
 		$scope.state = 'add';
 
-		var categoriasRef = new Firebase(appConfig.categoriasRef);
-			$scope.categorias = $firebaseArray(categoriasRef);
+		configService.load().then(function(appConfig){
+            var categoriasRef = new Firebase(appConfig.categoriasRef);
+				$scope.categorias = $firebaseArray(categoriasRef);
 
-		var paginasRef = new Firebase(appConfig.paginasRef);
-			paginasRef.orderByChild("titulo").startAt('sd').on("value", function(snapshot) {
-			  console.log(snapshot.val());
-			});
+			var paginasRef = new Firebase(appConfig.paginasRef);
+				paginasRef.orderByChild("titulo").startAt('sd').on("value", function(snapshot) {
+				  console.log(snapshot.val());
+				});
 
-			$scope.paginas = $firebaseArray(paginasRef);
+				$scope.paginas = $firebaseArray(paginasRef);
+        });
 
 		$scope.$watch('paginas', function(oldv, newv){
 			if($routeParams.id){

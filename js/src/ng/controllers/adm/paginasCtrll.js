@@ -1,8 +1,11 @@
 define(['app'], function(app){
 
-	app.controller('paginasCtrll', ['$scope', '$firebaseArray', 'Slug', 'appConfig', function($scope, $firebaseArray, Slug, appConfig){
+	app.controller('paginasCtrll', ['$scope', '$firebaseArray', 'Slug', 'configService', function($scope, $firebaseArray, Slug, configService){
 
-		var paginasRef = new Firebase(appConfig.paginasRef);
+		configService.load().then(function(appConfig){
+            var paginasRef = new Firebase(appConfig.paginasRef);
+            	$scope.paginas = $firebaseArray(paginasRef);
+        });
 
 			/*
 			paginasRef.orderByChild("state").equalTo('available').on("value", function(snapshot) {
@@ -15,8 +18,6 @@ define(['app'], function(app){
 				page.state = 'trashed';
 				$scope.paginas.$save(page).then(function(ref) {});
 			}
-
-			$scope.paginas = $firebaseArray(paginasRef);
 
     }]);
 

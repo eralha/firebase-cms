@@ -7,12 +7,6 @@ define(['ng/routes',
 
     var app = angular.module('app', ['ngRoute', 'firebase', 'slugifier', 'RecursionHelper', 'app.Services']);
 
-    app.constant('appConfig', {
-      firebaseRef: 'https://er-angular-cms.firebaseio.com/',
-      categoriasRef: 'https://er-angular-cms.firebaseio.com/categorias',
-      paginasRef: 'https://er-angular-cms.firebaseio.com/paginas'
-    });
-
     app.config(
     [
         '$routeProvider',
@@ -48,8 +42,8 @@ define(['ng/routes',
     ]);
     
     //generic controlers go here
-    app.controller('mainCtrll', ['$scope', '$rootScope', '$firebaseAuth', '$location', 'appConfig', '$firebaseArray', 'datService',
-                                function($scope, $rootScope, $firebaseAuth, $location, appConfig , $firebaseArray, datService){
+    app.controller('mainCtrll', ['$scope', '$rootScope', '$firebaseAuth', '$location', '$firebaseArray', 'datService',
+                                function($scope, $rootScope, $firebaseAuth, $location, $firebaseArray, datService){
 
         datService.getData().then(function(){
             $scope.categorias = datService.categorias;

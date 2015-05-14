@@ -1,12 +1,10 @@
-define(['ng/routes.adm','services/dependencyResolverFor'], function(config, dependencyResolverFor)
+define([
+    'ng/routes.adm',
+    'services/dependencyResolverFor',
+    'services/data-service'
+    ], function(config, dependencyResolverFor)
 {
-    var app = angular.module('app', ['ngRoute', 'firebase', 'slugifier']);
-
-    app.constant('appConfig', {
-      firebaseRef: 'https://er-angular-cms.firebaseio.com/',
-      categoriasRef: 'https://er-angular-cms.firebaseio.com/categorias',
-      paginasRef: 'https://er-angular-cms.firebaseio.com/paginas'
-    });
+    var app = angular.module('app', ['ngRoute', 'firebase', 'slugifier', 'app.Services']);
 
     app.config(
     [
@@ -43,13 +41,34 @@ define(['ng/routes.adm','services/dependencyResolverFor'], function(config, depe
     ]);
     
     //generic controlers go here
-    app.controller('mainCtrll', ['$scope', '$rootScope', '$firebaseAuth', '$location', 'appConfig', function($scope, $rootScope, $firebaseAuth, $location, appConfig) {
+    app.controller('mainCtrll', ['$scope', '$rootScope', '$firebaseAuth', '$location', 'configService', 
+                            function($scope, $rootScope, $firebaseAuth, $location, configService) {
 
-        $rootScope.firebaseAuthRef = new Firebase(appConfig.firebaseRef);
+        $rootScope.firebaseAuthRef = null;
         $scope.authData = null;
 
-        var authObj = $firebaseAuth($rootScope.firebaseAuthRef);
-        var authData = authObj.$getAuth();
+        var authObj = null;
+        var authData = null;
+
+        configService.load().then(function(appConfig){
+            $rootScope.firebaseAuthRef = new Firebase(appConfig.firebaseRef);
+            $scope.authData = null;
+
+            authObj = $firebaseAuth($rootScope.firebaseAuthRef);
+            authData = authObj.$getAuth();
+
+            authObj.$onAuth(function(authData) {
+              if (authData){
+                $scope.authData = authData;
+                console.log("Logged in as:", authData.uid);
+                $location.url("/adm-home");
+              }else{
+                $scope.authData = null;
+                $location.url("/login");
+                console.log("not logged");
+              }
+            });
+        });
 
         $scope.parseLocation = function(){
             return ($scope.authData == null)? false : true;
@@ -62,18 +81,6 @@ define(['ng/routes.adm','services/dependencyResolverFor'], function(config, depe
         $scope.isSelectedNavigation = function(path){
             return (String($scope.path).indexOf(path) != -1)? true : false;
         }
-
-        authObj.$onAuth(function(authData) {
-          if (authData){
-            $scope.authData = authData;
-            console.log("Logged in as:", authData.uid);
-            $location.url("/adm-home");
-          }else{
-            $scope.authData = null;
-            $location.url("/login");
-            console.log("not logged");
-          }
-        });
 
         $scope.$on('$locationChangeStart', function(e, next, current){
             $scope.path = $location.path();
