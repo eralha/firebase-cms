@@ -30,7 +30,7 @@ define([], function()
 
     }]);
 
-    services.factory('datService', ['$q', '$http', 'configService', function($q, $http, configService) {
+    services.factory('datService', ['$q', '$http', 'configService', '$filter', function($q, $http, configService, $filter) {
 
       var sup = this;
       this.categorias = null;
@@ -38,29 +38,83 @@ define([], function()
 
       var categoriasRef = null;
       var paginasRef = null;
+      var loadedPaginas = null;
+      var loadedCategorias = null;
 
 
       this.loadData = function(){
         var defer = $q.defer();
 
-        if(categoriasRef == null && paginasRef == null){
+        if(loadedPaginas == null && loadedCategorias == null){
           configService.load().then(function(data){
 
             categoriasRef = new Firebase(data.categoriasRef);
             paginasRef = new Firebase(data.paginasRef);
 
             categoriasRef.on('value', function(dataSnapshot) {
-              var categorias = dataSnapshot.val();
+              loadedCategorias = dataSnapshot.val();
 
               paginasRef.on('value', function(dataSnapshot) {
                 Firebase.goOffline();
-                var paginas = dataSnapshot.val();
+                loadedPaginas = dataSnapshot.val();
 
-                defer.resolve({categorias: categorias, paginas: paginas});
+                defer.resolve({categorias: angular.copy(loadedCategorias), paginas: angular.copy(loadedPaginas)});
               });
             });
           });
+
+          return defer.promise;
         }
+
+        defer.resolve({categorias: angular.copy(loadedCategorias), paginas: angular.copy(loadedPaginas)});
+
+        return defer.promise;
+      }
+
+      function filterPages(slug){
+        var categoria;
+        var paginas = new Array();
+
+        angular.forEach(sup.categorias, function(value, key) {
+          if(value.slug == slug){
+            categoria = value;
+            categoria.$id = key;
+          }
+        });
+
+        angular.forEach(sup.paginas, function(value, key) {
+          if(value.parentId == categoria.$id){
+            paginas.push(value);
+          }
+        });
+
+        return {paginas: paginas, categoria: categoria};
+      }
+
+      this.getPages = function(slug){
+        var defer = $q.defer();
+
+        sup.getData().then(function(){
+          defer.resolve(filterPages(slug));
+        });
+
+        return defer.promise;
+      }
+
+      this.getPage = function(slug){
+        var defer = $q.defer();
+
+        sup.getData().then(function(){
+          var pagina;
+
+          angular.forEach(sup.paginas, function(value, key) {
+            if(value.slug == slug){
+              pagina = value;
+            }
+          });
+
+          defer.resolve(pagina);
+        });
 
         return defer.promise;
       }
@@ -68,22 +122,24 @@ define([], function()
       this.getData = function(){
         var defer = $q.defer();
 
-        if(this.categorias == null && this.paginas == null){
-          this.categorias = {};
-          this.paginas = {};
+        this.loadData().then(function(data){
+          sup.paginas = data.paginas;
+          sup.categorias = {};
 
-          this.loadData().then(function(data){
-            angular.forEach(data.paginas, function(value, key){
-                var parent = value.parentId;
-
-                if(data.categorias[parent] && value.state == "available"){
-                  sup.categorias[parent] = data.categorias[parent];
-                  sup.categorias[parent].url = (sup.categorias[parent].url)? '/pages/'+sup.categorias[parent].slug : '/'+value.slug;
-                }
-            });
-            defer.resolve();
+          angular.forEach(sup.paginas, function(value, key){
+            value.$id = key;
           });
-        }//end if
+
+          angular.forEach(sup.paginas, function(value, key){
+              var parent = value.parentId;
+              if(data.categorias[parent] && value.state == "available"){
+                sup.categorias[parent] = data.categorias[parent];
+                sup.categorias[parent].url = (sup.categorias[parent].url)? '/pages/'+sup.categorias[parent].slug : '/'+value.slug;
+              }
+          });
+
+          defer.resolve();
+        });
 
         return defer.promise;
       }

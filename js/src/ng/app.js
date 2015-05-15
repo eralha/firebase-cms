@@ -47,7 +47,6 @@ define(['ng/routes',
 
         datService.getData().then(function(){
             $scope.categorias = datService.categorias;
-            console.log(datService.categorias);
         });
 
     }]);

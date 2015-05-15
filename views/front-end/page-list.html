@@ -1,4 +1,8 @@
 <section ng-controller="pageListCtrll">
-    <h1>Categoria Title</h1>
+    <h1>{{categoria.nome}}</h1>
     <p>Listagem de páginas da categoria, só acontece quando a categoria tem várias páginas associadas.</p>
+    <div ng-repeat="pagina in paginas track by pagina.$id">
+    	<h3><a href="#/{{pagina.slug}}">{{pagina.titulo}}</a></h3>
+    	<p>{{pagina.descricao}}</p>
+    </div>
 </section>

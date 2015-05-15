@@ -1,6 +1,6 @@
 <section>
     <ul class="nav nav-sidebar">
-        <li ng-repeat="categoria in categorias">
+        <li ng-repeat="categoria in categorias track by categoria.$id">
           <a href="#{{categoria.url}}" ng-bind="categoria.nome"></a>
           <nav-tree data="data" id-items="categoria.$id"></nav-tree>
         </li>
