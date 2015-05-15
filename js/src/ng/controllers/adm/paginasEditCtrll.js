@@ -15,7 +15,17 @@ define(['app'], function(app){
 				  //console.log(snapshot.val());
 				});
 
+			var imagesRef = new Firebase(appConfig.imagensRef);
+				if($routeParams.id){
+					imagesRef.orderByChild("owner").startAt($routeParams.id).endAt($routeParams.id).on("value", function(snapshot) {
+					  var key = Object.keys(snapshot.val());
+					  if(snapshot.val()){
+
+					  }
+					});
+				}
 				$scope.paginas = $firebaseArray(paginasRef);
+				$scope.imagens = $firebaseArray(imagesRef);
         });
 
 		$scope.$watch('paginas', function(oldv, newv){
@@ -25,6 +35,10 @@ define(['app'], function(app){
 				$scope.page = (page)? page : {};
 			}
 		}, true);
+
+		$scope.$on("fileSelected", function(e, data){
+			$scope.pageImage = data;
+		});
 
 		/*
 		$scope.$watch('page', function(oldv, newv){
@@ -88,6 +102,16 @@ define(['app'], function(app){
 				$scope.paginas.$save($scope.page).then(function(ref) {
 	        	  setPageInfo('saved');
 	        	  //console.log("page saved");
+
+	        	  if($scope.pageImage){
+	        	  	var img = {};
+	        	  		img.data = $scope.pageImage;
+	        	  		img.owner = $scope.page.$id;
+	        	  	$scope.imagens.$add(img).then(function(ref) {
+					  console.log("added record with id " + ref.key());
+					});
+	        	  }
+
 				});
 			}
 

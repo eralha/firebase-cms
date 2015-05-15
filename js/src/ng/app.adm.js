@@ -6,7 +6,7 @@ define([
     'directives/main'
     ], function(config, dependencyResolverFor)
 {
-    var app = angular.module('app', ['ngRoute', 'firebase', 'slugifier', 'app.Services', 'app.Directives']);
+    var app = angular.module('app', ['ngRoute', 'firebase', 'slugifier', 'RecursionHelper', 'app.Services', 'app.Directives']);
 
     app.config(
     [
