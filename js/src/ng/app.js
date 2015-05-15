@@ -1,11 +1,12 @@
 define(['ng/routes',
     'services/dependencyResolverFor',
     'services/data-service',
-    'services/recursionHelper'
+    'services/recursionHelper',
+    'directives/main'
     ], function(config, dependencyResolverFor)
 {
 
-    var app = angular.module('app', ['ngRoute', 'firebase', 'slugifier', 'RecursionHelper', 'app.Services']);
+    var app = angular.module('app', ['ngRoute', 'firebase', 'slugifier', 'RecursionHelper', 'app.Services', 'app.Directives']);
 
     app.config(
     [
@@ -50,33 +51,6 @@ define(['ng/routes',
         });
 
     }]);
-
-    app.directive("navTree", function(RecursionHelper) {
-        return {
-            restrict: "E",
-            scope: {
-              data: '=',
-              idItems: '='
-            },
-            templateUrl: '/views/front-end/nav-tree.html',
-            compile: function(element) {
-                return RecursionHelper.compile(element, function(scope, iElement, iAttrs, controller, transcludeFn){
-
-                    scope.categorias = new Array();
-
-                    scope.$watch('data', function(){
-                        angular.forEach(scope.data, function(value, key){
-                            value.$id = key;
-                            if(value.pai == scope.idItems){ 
-                                scope.categorias.push(value);
-                            }
-                        });
-                    }, true);
-
-                });
-            }
-        };
-    });//END DIRECTIVE navTree
 
    return app;
 });

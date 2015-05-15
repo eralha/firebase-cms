@@ -1,10 +1,12 @@
 define([
     'ng/routes.adm',
     'services/dependencyResolverFor',
-    'services/data-service'
+    'services/data-service',
+    'services/recursionHelper',
+    'directives/main'
     ], function(config, dependencyResolverFor)
 {
-    var app = angular.module('app', ['ngRoute', 'firebase', 'slugifier', 'app.Services']);
+    var app = angular.module('app', ['ngRoute', 'firebase', 'slugifier', 'app.Services', 'app.Directives']);
 
     app.config(
     [
