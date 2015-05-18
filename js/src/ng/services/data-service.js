@@ -37,6 +37,7 @@ define([], function()
       this.paginas = null;
 
       var categoriasRef = null;
+      var imagesArr = {};
       var paginasRef = null;
       var loadedPaginas = null;
       var loadedCategorias = null;
@@ -51,10 +52,12 @@ define([], function()
             categoriasRef = new Firebase(data.categoriasRef);
             paginasRef = new Firebase(data.paginasRef);
 
-            categoriasRef.on('value', function(dataSnapshot) {
+            var onValue = categoriasRef.on('value', function(dataSnapshot) {
               loadedCategorias = dataSnapshot.val();
+              categoriasRef.off('value', onValue);
 
-              paginasRef.on('value', function(dataSnapshot) {
+              var onValue = paginasRef.orderByChild("state").startAt('available').endAt('available').on('value', function(dataSnapshot) {
+                paginasRef.off('value', onValue);
                 Firebase.goOffline();
                 loadedPaginas = dataSnapshot.val();
 
@@ -67,6 +70,46 @@ define([], function()
         }
 
         defer.resolve({categorias: angular.copy(loadedCategorias), paginas: angular.copy(loadedPaginas)});
+
+        return defer.promise;
+      }
+
+      this.getImages = function(categoriaId){
+        var defer = $q.defer();
+        if(!imagesArr[categoriaId]){
+          configService.load().then(function(data){
+            Firebase.goOnline();
+
+            var imagesRef = new Firebase(data.imagensRef);
+                var onValue = imagesRef.orderByChild("ownerCategoria").startAt(categoriaId).endAt(categoriaId).on("value", function(snapshot) {
+                  imagesRef.off('value', onValue);
+                  Firebase.goOffline();
+
+                  if(snapshot.val() != null){
+                    imagesArr[categoriaId] = snapshot.val();
+                  }else{
+                    imagesArr[categoriaId] = "EMPTY";
+                  }
+                  defer.resolve(imagesArr[categoriaId]);
+                });
+          });
+        }else{
+          defer.resolve(imagesArr[categoriaId]);
+        }
+
+        return defer.promise;
+      }
+
+      this.getImage = function(categoriaId, pageId){
+        var defer = $q.defer();
+
+        this.getImages(categoriaId).then(function(images){
+          if(images != "EMPTY"){
+            defer.resolve(images[pageId]);
+          }else{
+            defer.reject();
+          }
+        });
 
         return defer.promise;
       }

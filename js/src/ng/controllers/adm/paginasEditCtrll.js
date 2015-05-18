@@ -15,17 +15,8 @@ define(['app'], function(app){
 				  //console.log(snapshot.val());
 				});
 
-			var imagesRef = new Firebase(appConfig.imagensRef);
-				if($routeParams.id){
-					imagesRef.orderByChild("owner").startAt($routeParams.id).endAt($routeParams.id).on("value", function(snapshot) {
-					  var key = Object.keys(snapshot.val());
-					  if(snapshot.val()){
 
-					  }
-					});
-				}
 				$scope.paginas = $firebaseArray(paginasRef);
-				$scope.imagens = $firebaseArray(imagesRef);
         });
 
 		$scope.$watch('paginas', function(oldv, newv){
@@ -33,6 +24,12 @@ define(['app'], function(app){
 				$scope.state = 'save';
 				var page = $scope.paginas.$getRecord($routeParams.id);
 				$scope.page = (page)? page : {};
+
+				var imageRef = new Firebase(configService.data.imagensRef+'/'+$routeParams.id);
+					imageRef.on("value", function(snapshot) {
+					  $scope.pageImage = snapshot.val().data;
+					  $scope.$apply();
+					});
 			}
 		}, true);
 
@@ -79,6 +76,18 @@ define(['app'], function(app){
 	    	  	$scope.$apply();
 	    	}, 2000);
 		}
+		function saveImage(pageRef){
+			if($scope.pageImage){
+	    	  	var img = {};
+	    	  		img.data = $scope.pageImage;
+	    	  		img.owner = $scope.page.$id;
+	    	  		img.ownerCategoria = $scope.page.parentId;
+	    	  		img.state = $scope.page.state;
+
+	    	  	var imagesRef = new Firebase(configService.data.imagensRef+'/'+pageRef);
+	    	  		imagesRef.set(img);
+	    	  }
+		}
 
 		$scope.slug = function(name){
 			var slug = Slug.slugify(name);
@@ -101,17 +110,8 @@ define(['app'], function(app){
 			if($scope.state == 'save'){
 				$scope.paginas.$save($scope.page).then(function(ref) {
 	        	  setPageInfo('saved');
-	        	  //console.log("page saved");
-
-	        	  if($scope.pageImage){
-	        	  	var img = {};
-	        	  		img.data = $scope.pageImage;
-	        	  		img.owner = $scope.page.$id;
-	        	  	$scope.imagens.$add(img).then(function(ref) {
-					  console.log("added record with id " + ref.key());
-					});
-	        	  }
-
+	        	  var pageRef = ref.key();
+	        	  saveImage(pageRef);
 				});
 			}
 
@@ -123,6 +123,9 @@ define(['app'], function(app){
 	        	  setPageInfo('saved');
 	        	  $scope.page = $scope.paginas.$getRecord(ref.key());
 	        	  $scope.state = 'save';
+
+	        	  var pageRef = ref.key();
+	        	  saveImage(pageRef);
 				});
 			}
 		}
@@ -134,7 +137,10 @@ define(['app'], function(app){
 
 			$scope.page.state = 'trashed';
 			if($scope.state == 'save'){
-				$scope.paginas.$save($scope.page).then(function(ref) {});
+				$scope.paginas.$save($scope.page).then(function(ref) {
+					var pageRef = ref.key();
+					saveImage(pageRef);
+				});
 			}
 		}
 
