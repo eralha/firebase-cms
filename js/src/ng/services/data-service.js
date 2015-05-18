@@ -15,6 +15,8 @@ define([], function()
           return defer.promise;
         }
 
+        var path = (String(window.location).indexOf('/adm/')) ? '../js/config.json' : 'js/config.json';
+
         $http.get('/js/config.json').success(function(data, status, headers, config) {
           sup.data = data[0];
           defer.resolve(sup.data);
