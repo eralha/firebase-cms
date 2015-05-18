@@ -1,6 +1,6 @@
 <section ng-controller="categoriasCtrll">
 
-	<h1>Categorias</h1>
+	<h1>Categories</h1>
 
 	<form class="form-inline mb_20" ng-model="addCategoriaForm">
 	  <div class="form-group" 
@@ -9,24 +9,24 @@
 	  			'has-feedback': canAdd(addCategoriaNome) == true, 
 	  			'has-error': canAdd(addCategoriaNome)  == false
 	  		}">
-	    <label class="control-label" for="addCategoriaNome">Adicionar uma nova categoria: </label>
+	    <label class="control-label" for="addCategoriaNome">Add new category: </label>
 	    <input type="text" class="form-control" id="addCategoriaNome" name="addCategoriaNome" ng-model="addCategoriaNome" placeholder="Nome Categoria" />
 	  </div>
 	  <div class="form-group" >
-	    <label class="control-label" for="addCategoriaNome">Pai: </label>
+	    <label class="control-label" for="addCategoriaNome">Parent: </label>
 	    <select class="form-control" ng-model="addCategoriaPai">
-	      <option value="0">Nenhum</option>
+	      <option value="0">None</option>
 		  <option ng-repeat="categoria in categorias" value="{{::categoria.$id}}">{{::categoria.nome}}</option>
 		</select>
 	  </div>
-	  <button class="btn btn-primary" ng-click="adicionarCategoria()">Adicionar Categoria</button>
+	  <button class="btn btn-primary" ng-click="adicionarCategoria()">Add Category</button>
 	</form>
 
 	  <table class="table">
 	    <tr>
-	      <td><b>Nome Categoria</b></td>
-	      <td><b>Categoria Pai</b></td>
-	      <td><b>Acções</b></td>
+	      <td><b>Category Name</b></td>
+	      <td><b>Category Parent</b></td>
+	      <td><b>Actions</b></td>
 	    </tr>
 	    <tr ng-repeat="categoria in categorias track by categoria.$id">
 	      <td>
@@ -48,12 +48,12 @@
 	      </td>
 	      <td>{{categorias.$getRecord(categoria.pai).nome}}</td>
 	      <td>
-	        <button class="btn btn-primary btn-xs" ng-click="toggleEdit(categoria.$id);">Editar</button>
-	        <button class="btn btn-danger btn-xs" ng-click="categorias.$remove(categoria);">Apagar</button>
+	        <button class="btn btn-primary btn-xs" ng-click="toggleEdit(categoria.$id);">Edit</button>
+	        <button class="btn btn-danger btn-xs" ng-click="categorias.$remove(categoria);">Delete</button>
 	      </td>
 	    </tr>
 	  </table>
 
-	  <p ng-if="categorias.length == 0">Não existem categoria associadas.</p>
+	  <p ng-if="categorias.length == 0">There is no categories to list.</p>
 
 </section>
