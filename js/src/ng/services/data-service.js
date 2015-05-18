@@ -17,7 +17,7 @@ define([], function()
 
         var path = (String(window.location).indexOf('/adm/')) ? '../js/config.json' : 'js/config.json';
 
-        $http.get('/js/config.json').success(function(data, status, headers, config) {
+        $http.get(path).success(function(data, status, headers, config) {
           sup.data = data[0];
           defer.resolve(sup.data);
         }).error(function(data, status, headers, config) {
