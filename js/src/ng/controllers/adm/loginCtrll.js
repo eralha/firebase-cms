@@ -4,8 +4,8 @@ define(['app'], function(app){
 
   		var authObj = $firebaseAuth($rootScope.firebaseAuthRef);
 
-      $scope.loginEmail = 'ejr@netmais.pt';
-      $scope.loginPassword = 'matrix';
+      $scope.loginEmail = 'teste@teste.com';
+      $scope.loginPassword = 'teste';
 
   		$scope.login = function() {
           $scope.authData = null;
