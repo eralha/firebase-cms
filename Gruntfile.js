@@ -32,24 +32,6 @@ module.exports = function(grunt) {
         dest: path+'js/dist/'
       };
 
-  if(grunt.option("proj") == "angular-concat"){
-      modulesToCompile = {};
-      mainJsFile = {};
-      modulesToCompile[path+"js/dist/libs.min.js"] = [ 
-        'js/src/lib/*.js'
-      ];
-      mainJsFile[path+"js/dist/main.min.js"] = [ 
-        'js/*.js',
-        'js/src/modules/*.js',
-        'js/src/ng/*.js',
-        'js/src/ng/services/*.js',
-        'js/src/ng/directives/*.js',
-        'js/src/ng/controlers/*.js',
-        'js/src/ng/controllers/*.js',
-      ];
-  }
-
-  if(grunt.option("proj") == "angular"){
       modulesToCompile = {
         expand: true,
         cwd: path+'js/src',
@@ -64,7 +46,6 @@ module.exports = function(grunt) {
         ],
         dest: path+'js/dist/'
       };
-  }
 
   // Project configuration.
   grunt.initConfig({
@@ -136,5 +117,6 @@ grunt.event.on('watch', function(action, filepath, target) {
   grunt.registerTask('css', ['less', 'cssmin']);
   grunt.registerTask('js', ['uglify']);
   grunt.registerTask('w', ['watch']);
+  grunt.registerTask('default', ['less', 'cssmin', 'uglify']);
 
 };
