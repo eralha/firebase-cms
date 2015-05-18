@@ -1,6 +1,6 @@
 var appCFO_baseUrl = "src";
 require.config({
-    baseUrl: 'js/'+appCFO_baseUrl+'/',
+    baseUrl: '../js/'+appCFO_baseUrl+'/',
     paths: {
 		'angular' : 'lib/angular.min',
 		'angular-route' : 'lib/angular.route.min',
