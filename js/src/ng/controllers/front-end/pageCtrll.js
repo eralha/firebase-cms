@@ -4,6 +4,10 @@ define(['app'], function(app){
 
 		datService.getPage($routeParams.slug).then(function(pagina){
 			$scope.pagina = pagina;
+
+			datService.getImage($scope.pagina.parentId, $scope.pagina.$id).then(function(image){
+				$scope.pagina.image = image.data;
+			});
 		});
 		
     }]);

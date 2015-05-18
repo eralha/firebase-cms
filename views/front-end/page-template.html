@@ -1,4 +1,5 @@
 <section ng-controller="pageCtrll">
+	<div class="thumbnail" ng-if="pagina.image" style="float:left;margin-right:15px;"><img src="{{pagina.image}}" width="300" /></div>
     <h1>{{pagina.titulo}}</h1>
     {{pagina.content}}
 </section>
