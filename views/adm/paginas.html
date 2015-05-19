@@ -1,29 +1,29 @@
 <section ng-controller="paginasCtrll">
     
-    <h1>Páginas</h1>
+    <h1>Pages</h1>
 
 	<form class="form-inline mb_20" ng-model="addCategoriaForm">
 	  <a href="#/paginas-edit">
-	  	<button class="btn btn-primary" ng-click="adicionarCategoria()">Adicionar Página</button>
+	  	<button class="btn btn-primary" ng-click="adicionarCategoria()">Add Page</button>
 	  </a>
 	</form>
 
 	  <table class="table">
 	    <tr>
-	      <td><b>Titulo página</b></td>
-	      <td><b>Categoria</b></td>
-	      <td><b>Acções</b></td>
+	      <td><b>Page Title</b></td>
+	      <td><b>Category</b></td>
+	      <td><b>Actions</b></td>
 	    </tr>
 	    <tr ng-repeat="pagina in paginas | filter: {state: 'available'} track by pagina.$id">
 	      <td>{{pagina.titulo}}</td>
 	      <td>{{pagina.parentNome}}</td>
 	      <td>
-	        <a href="#/paginas-edit/{{pagina.$id}}"><button class="btn btn-primary btn-xs">Editar</button></a>
-	        <button class="btn btn-danger btn-xs" ng-click="sendToTrash(pagina);">Apagar</button>
+	        <a href="#/paginas-edit/{{pagina.$id}}"><button class="btn btn-primary btn-xs">Edit</button></a>
+	        <button class="btn btn-danger btn-xs" ng-click="sendToTrash(pagina);">Delete</button>
 	      </td>
 	    </tr>
 	  </table>
 
-	  <p ng-if="paginas.length == 0">Não existem páginas associadas.</p>
+	  <p ng-if="paginas.length == 0">There are no pages to show!</p>
 
 </section>
