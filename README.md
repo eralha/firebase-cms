@@ -19,7 +19,13 @@ Back-end: <a href="https://rawgit.com/eralha/firebase-cms/master/adm/index.html"
 
 ##Testing
 
-<p>After you have run 'npm install' run:</p>
+<p>Install an http-server run:</p>
+
+```command
+	npm install http-server -g
+```
+
+<p>Running the server:</p>
 
 ```command
 	http-server
