@@ -16,3 +16,46 @@ Back-end: <a href="https://rawgit.com/eralha/firebase-cms/master/adm/index.html"
 	npm install
 	grunt default
 ```
+
+##Testing
+
+<p>After you have run 'npm install' run:</p>
+
+```command
+	http-server
+```
+
+<p>This will create a server on http://localhost:8080/ and let you test this CMS</p>
+
+
+##Setup
+
+<p>Create a firebase account</p>
+<ul>
+	<li>Create a firebase account</li>
+	<li>Create a firebase app</li>
+	<li>Add the following firebase rules</li>
+	<li>Configure the file js/config.json with your firebase app location</li>
+</ul>
+
+<p>Firebase Rules:</p>
+```command
+	{
+	    "rules": {
+	        ".read": true,
+	        "categorias": {
+	          ".write": "auth.provider == 'password' && auth != null",
+	        },
+	        "paginas": {
+	          ".write": "auth.provider == 'password' && auth != null",
+	          ".indexOn": "state"
+	        },
+	        "imagens": {
+	          ".write": "auth.provider == 'password' && auth != null",
+	          ".indexOn": "ownerCategoria"
+	        }
+	    }
+	}
+```
+
+<p>This will create a server on http://localhost:8080/ and let you test this CMS</p>
