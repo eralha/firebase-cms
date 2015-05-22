@@ -30,7 +30,7 @@ Back-end: <a href="https://rawgit.com/eralha/firebase-cms/master/adm/index.html"
 
 ##Setup
 
-<p>Create a firebase account</p>
+<p>Steps:</p>
 <ul>
 	<li>Create a firebase account</li>
 	<li>Create a firebase app</li>
