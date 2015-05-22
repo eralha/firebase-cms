@@ -57,5 +57,3 @@ Back-end: <a href="https://rawgit.com/eralha/firebase-cms/master/adm/index.html"
 	    }
 	}
 ```
-
-<p>This will create a server on http://localhost:8080/ and let you test this CMS</p>
