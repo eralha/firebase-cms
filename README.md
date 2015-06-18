@@ -2,6 +2,10 @@
 
 Basic CMS with Firebase and Angular
 
+<p>
+<a href="https://travis-ci.org/eralha/firebase-cms" target="_blank">
+<img src="https://api.travis-ci.org/eralha/firebase-cms.svg?branch=master" alt="" /></a></p>
+
 # Demos
 
 Front-end: <a href="https://rawgit.com/eralha/firebase-cms/master/index.html">demo</a><br />
