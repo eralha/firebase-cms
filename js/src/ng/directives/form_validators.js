@@ -181,6 +181,7 @@ define(['app'], function(app)
               var results = new Array();
               var messages = new Array();
 
+              //Run each validator described in directive field-validator='value'
               for(i in steps){
                 //console.log(ctrl);
                 validator[steps[i]](viewValue, results);
@@ -196,6 +197,7 @@ define(['app'], function(app)
                 }
               }
 
+              //Matches this field with a given field name usefull to check password and repeat password
               if(attrs.fieldMatch){
                 if($('[name="'+attrs.fieldMatch+'"]').val() != viewValue){
                     ctrl.$setValidity('match-'+attrs.fieldMatch, false);
@@ -206,15 +208,21 @@ define(['app'], function(app)
                 }
               }
 
+              //Init the var scope.messages if not created
               scope.messages = (scope.messages)? scope.messages : {};
+              //Set a scope erros var if we want to list the errors
               scope.messages[ctrl.$name] = messages;
 
               return viewValue;
             }
+
+            //After directive rendering we run our validators to invalidate ngModel
+            //but we dont give visual evidence to the user, because the form is not dirty
             setTimeout(function(){
                 runValidators(false, ctrl.$viewValue);
             }, 50);
 
+            //Add's Validation to fields on blur event
             $(element).blur(function(){
                 runValidators(true, ctrl.$viewValue);
             });
