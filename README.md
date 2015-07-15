@@ -61,8 +61,10 @@ Back-end: <a href="https://rawgit.com/eralha/firebase-cms/master/adm/index.html"
 	          ".indexOn": "state"
 	        },
 	        "imagens": {
-	          ".write": "auth.provider == 'password' && auth != null",
-	          ".indexOn": "ownerCategoria"
+	          "$page_id" : {
+	          	".write": "auth.provider == 'password' && auth != null && root.child('paginas/'+$page_id).exists() && root.child('paginas/'+$page_id).child('state').val() == 'available'",
+	            ".indexOn": "ownerCategoria"
+	      	  }
 	        }
 	    }
 	}
