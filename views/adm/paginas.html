@@ -4,8 +4,10 @@
 
 	<form class="form-inline mb_20" ng-model="addCategoriaForm">
 	  <a href="#/paginas-edit">
-	  	<button class="btn btn-primary" ng-click="adicionarCategoria()">Add Page</button>
+	  	<button class="btn btn-primary">Add Page</button>
 	  </a>
+	  <button class="btn btn-primary" ng-click="filterPages('trashed')" ng-if="state == 'available'">view trashed pages</button>
+	  <button class="btn btn-primary" ng-click="filterPages('available')" ng-if="state == 'trashed'">view available pages</button>
 	</form>
 
 	  <table class="table">
@@ -14,7 +16,7 @@
 	      <td><b>Category</b></td>
 	      <td><b>Actions</b></td>
 	    </tr>
-	    <tr ng-repeat="pagina in paginas | filter: {state: 'available'} track by pagina.$id">
+	    <tr ng-repeat="pagina in paginas | filter: {state: state} track by pagina.$id">
 	      <td>{{pagina.titulo}}</td>
 	      <td>{{pagina.parentNome}}</td>
 	      <td>
