@@ -62,12 +62,12 @@ define([
             authObj.$onAuth(function(authData) {
               if (authData){
                 $scope.authData = authData;
-                console.log("Logged in as:", authData.uid);
+                //console.log("Logged in as:", authData.uid);
                 $location.url("/adm-home");
               }else{
                 $scope.authData = null;
                 $location.url("/login");
-                console.log("not logged");
+                //console.log("not logged");
               }
             });
         });
@@ -86,7 +86,7 @@ define([
 
         $scope.$on('$locationChangeStart', function(e, next, current){
             $scope.path = $location.path();
-            console.log($scope.path);
+            //console.log($scope.path);
             if($scope.parseLocation() == false){ 
                 $location.url("/login");
             }

@@ -27,8 +27,9 @@ define(['app'], function(app){
 
 				var imageRef = new Firebase(configService.data.imagensRef+'/'+$routeParams.id);
 					imageRef.on("value", function(snapshot) {
+						console.log(snapshot.val().data);
 					  $scope.pageImage = snapshot.val().data;
-					  $scope.$apply();
+					  setTimeout(function(){$scope.$apply();}, 500);
 					});
 			}
 		}, true);

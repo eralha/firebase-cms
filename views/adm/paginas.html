@@ -2,6 +2,9 @@
     
     <h1>Pages</h1>
 
+    <div class="alert alert-danger" role="alert" ng-if="messages.pageDeleted">Page Deleted!</div>
+    <div class="alert alert-danger" role="alert" ng-if="messages.pageTrashed">Page Trashed!</div>
+
 	<form class="form-inline mb_20" ng-model="addCategoriaForm">
 	  <a href="#/paginas-edit">
 	  	<button class="btn btn-primary">Add Page</button>
@@ -16,16 +19,17 @@
 	      <td><b>Category</b></td>
 	      <td><b>Actions</b></td>
 	    </tr>
-	    <tr ng-repeat="pagina in paginas | filter: {state: state} track by pagina.$id">
+	    <tr ng-repeat="pagina in filtered = (paginas | filter: {state: state}) track by pagina.$id">
 	      <td>{{pagina.titulo}}</td>
 	      <td>{{pagina.parentNome}}</td>
 	      <td>
 	        <a href="#/paginas-edit/{{pagina.$id}}"><button class="btn btn-primary btn-xs">Edit</button></a>
-	        <button class="btn btn-danger btn-xs" ng-click="sendToTrash(pagina);">Delete</button>
+	        <button class="btn btn-danger btn-xs" ng-click="sendToTrash(pagina);" ng-if="state == 'available'">Trash</button>
+	        <button class="btn btn-danger btn-xs" ng-click="permaDelete(pagina);" ng-if="state == 'trashed'">Delete</button>
 	      </td>
 	    </tr>
 	  </table>
 
-	  <p ng-if="paginas.length == 0">There are no pages to show!</p>
+	  <p ng-if="filtered.length == 0">There are no pages to show!</p>
 
 </section>

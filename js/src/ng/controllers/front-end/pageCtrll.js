@@ -6,7 +6,7 @@ define(['app'], function(app){
 			$scope.pagina = pagina;
 
 			datService.getImage($scope.pagina.parentId, $scope.pagina.$id).then(function(image){
-				$scope.pagina.image = image.data;
+				$scope.pagina.image = (image)? image.data : null;
 			});
 		});
 		

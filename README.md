@@ -54,7 +54,7 @@ Back-end: <a href="https://rawgit.com/eralha/firebase-cms/master/adm/index.html"
 	    "rules": {
 	        ".read": true,
 	        "categorias": {
-	          ".write": "auth.provider == 'password' && auth != null",
+	          ".write": "auth.provider == 'password' && auth != null"
 	        },
 	        "paginas": {
 	          ".write": "auth.provider == 'password' && auth != null",
@@ -63,7 +63,7 @@ Back-end: <a href="https://rawgit.com/eralha/firebase-cms/master/adm/index.html"
 	        "imagens": {
 	          "$page_id" : {
 	          	".write": "auth.provider == 'password' && auth != null && root.child('paginas/'+$page_id).exists() && root.child('paginas/'+$page_id).child('state').val() == 'available'",
-	            ".indexOn": "ownerCategoria"
+	            ".indexOn": ["ownerCategoria", "owner"]
 	      	  }
 	        }
 	    }

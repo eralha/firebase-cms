@@ -32,7 +32,8 @@ define([], function()
 
     }]);
 
-    services.factory('datService', ['$q', '$http', 'configService', '$filter', function($q, $http, configService, $filter) {
+    services.factory('datService', ['$q', '$http', 'configService', '$filter', '$firebaseObject', 
+      function($q, $http, configService, $filter, $firebaseObject) {
 
       var sup = this;
       this.categorias = null;
@@ -48,7 +49,7 @@ define([], function()
       this.loadData = function(){
         var defer = $q.defer();
 
-        if(loadedPaginas == null && loadedCategorias == null){
+        if(loadedPaginas == null || loadedCategorias == null){
           configService.load().then(function(data){
 
             categoriasRef = new Firebase(data.categoriasRef);
@@ -98,6 +99,30 @@ define([], function()
         }else{
           defer.resolve(imagesArr[categoriaId]);
         }
+
+        return defer.promise;
+      }
+
+      this.deletePageImages = function(pageId){
+        var defer = $q.defer();
+        var deletedImages = new Array();
+
+        configService.load().then(function(data){
+
+          var imagesRef = new Firebase(data.imagensRef);
+          var onValue = imagesRef.orderByChild("owner").startAt(pageId).endAt(pageId).on("value", function(snapshot) {
+            imagesRef.off('value', onValue);
+
+            var pageImages = snapshot.val();
+            for(i in pageImages){
+              var ref = new Firebase(data.imagensRef+'/'+i);
+                  ref.remove();
+                  deletedImages.push(i);
+            }
+
+            defer.resolve(deletedImages);
+          });
+        });
 
         return defer.promise;
       }
