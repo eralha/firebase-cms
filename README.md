@@ -77,5 +77,6 @@ Back-end: <a href="https://rawgit.com/eralha/firebase-cms/master/adm/index.html"
 	<li>Remove from codebase any portuguese sentences/words</li>
 	<li>Add capabilities of have dynamic fields</li>
 	<li>Add a button on page edit screen to switch for "trash" view, here you can see the pages that have been "trashed" but not deleted</li>
-	<li>Add page delete functionality on "trash" view</li>
+	<li style="color:green;">Add page delete functionality on "trash" view</li>
+	<li>Add response for bad login</li>
 </ul>
