@@ -8,7 +8,7 @@ Basic CMS with Firebase and Angular
 
 # Demos
 
-Front-end: <a href="https://rawgit.com/eralha/firebase-cms/master/index.html">demo</a><br />
+Front-end: <a href="https://rawgit.com/eralha/firebase-cms/master/demo/index.html">demo</a><br />
 Back-end: <a href="https://rawgit.com/eralha/firebase-cms/master/adm/index.html">demo</a>
 
 
