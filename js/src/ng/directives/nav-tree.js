@@ -9,7 +9,7 @@ define(['app'], function(app)
 	              data: '=',
 	              idItems: '='
 	            },
-	            templateUrl: 'views/front-end/nav-tree.html',
+	            templateUrl: '../views/front-end/nav-tree.html',
 	            compile: function(element) {
 	                return RecursionHelper.compile(element, function(scope, iElement, iAttrs, controller, transcludeFn){
 
