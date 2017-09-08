@@ -52,8 +52,8 @@ define([], function()
         if(loadedPaginas == null || loadedCategorias == null){
           configService.load().then(function(data){
 
-            categoriasRef = new Firebase(data.categoriasRef);
-            paginasRef = new Firebase(data.paginasRef);
+            categoriasRef = firebase.database().ref(data.categoriasRef);
+            paginasRef = firebase.database().ref(data.paginasRef);
 
             var onValue = categoriasRef.on('value', function(dataSnapshot) {
               loadedCategorias = dataSnapshot.val();
@@ -61,7 +61,7 @@ define([], function()
 
               var onValue = paginasRef.orderByChild("state").startAt('available').endAt('available').on('value', function(dataSnapshot) {
                 paginasRef.off('value', onValue);
-                Firebase.goOffline();
+                firebase.database().goOffline();
                 loadedPaginas = dataSnapshot.val();
 
                 defer.resolve({categorias: angular.copy(loadedCategorias), paginas: angular.copy(loadedPaginas)});
@@ -81,12 +81,12 @@ define([], function()
         var defer = $q.defer();
         if(!imagesArr[categoriaId]){
           configService.load().then(function(data){
-            Firebase.goOnline();
+            firebase.database().goOnline();
 
-            var imagesRef = new Firebase(data.imagensRef);
+            var imagesRef = firebase.database().ref(data.imagensRef);
                 var onValue = imagesRef.orderByChild("ownerCategoria").startAt(categoriaId).endAt(categoriaId).on("value", function(snapshot) {
                   imagesRef.off('value', onValue);
-                  Firebase.goOffline();
+                  firebase.database().goOffline();
 
                   if(snapshot.val() != null){
                     imagesArr[categoriaId] = snapshot.val();
@@ -109,13 +109,13 @@ define([], function()
 
         configService.load().then(function(data){
 
-          var imagesRef = new Firebase(data.imagensRef);
+          var imagesRef = firebase.database().ref(data.imagensRef);
           var onValue = imagesRef.orderByChild("owner").startAt(pageId).endAt(pageId).on("value", function(snapshot) {
             imagesRef.off('value', onValue);
 
             var pageImages = snapshot.val();
             for(i in pageImages){
-              var ref = new Firebase(data.imagensRef+'/'+i);
+              var ref = firebase.database().ref(data.imagensRef+'/'+i);
                   ref.remove();
                   deletedImages.push(i);
             }

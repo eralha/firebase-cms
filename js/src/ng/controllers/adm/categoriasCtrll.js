@@ -3,7 +3,7 @@ define(['app'], function(app){
 	app.controller('categoriasCtrll', ['$scope', '$firebaseArray', 'Slug', 'configService', function($scope, $firebaseArray, Slug, configService){
 
 		configService.load().then(function(appConfig){
-            var categoriasRef = new Firebase(appConfig.categoriasRef);
+            var categoriasRef = firebase.database().ref(appConfig.categoriasRef);
 			$scope.categorias = $firebaseArray(categoriasRef);
         });
 
@@ -18,7 +18,7 @@ define(['app'], function(app){
 			$scope.categorias.$add({
 			  nome: $scope.addCategoriaNome,
 			  pai: ($scope.addCategoriaPai)? $scope.addCategoriaPai : 0,
-			  creationDate : Firebase.ServerValue.TIMESTAMP,
+			  creationDate : firebase.database.ServerValue.TIMESTAMP,
 			  slug: Slug.slugify($scope.addCategoriaNome)
 			});
 		}

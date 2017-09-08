@@ -25,7 +25,21 @@
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
-	<script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
+	
+  <script src="https://www.gstatic.com/firebasejs/4.3.1/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyDh73Jec53g44oCSy4HagXsmV-N6onEQMg",
+      authDomain: "new-fb-proj.firebaseapp.com",
+      databaseURL: "https://new-fb-proj.firebaseio.com",
+      projectId: "new-fb-proj",
+      storageBucket: "new-fb-proj.appspot.com",
+      messagingSenderId: "855128883226"
+    };
+    firebase.initializeApp(config);
+  </script>
+  
     
   <!-- favicon -->
   <link rel="shortcut icon" href="/images/favicon.ico" />

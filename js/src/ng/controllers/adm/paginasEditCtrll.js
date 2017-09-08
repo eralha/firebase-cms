@@ -7,10 +7,10 @@ define(['app'], function(app){
 		$scope.state = 'add';
 
 		configService.load().then(function(appConfig){
-            var categoriasRef = new Firebase(appConfig.categoriasRef);
+            var categoriasRef = firebase.database().ref(appConfig.categoriasRef);
 				$scope.categorias = $firebaseArray(categoriasRef);
 
-			var paginasRef = new Firebase(appConfig.paginasRef);
+			var paginasRef = firebase.database().ref(appConfig.paginasRef);
 				paginasRef.orderByChild("state").startAt('available').endAt('available').on("value", function(snapshot) {
 				  //console.log(snapshot.val());
 				});
@@ -25,7 +25,7 @@ define(['app'], function(app){
 				var page = $scope.paginas.$getRecord($routeParams.id);
 				$scope.page = (page)? page : {};
 
-				var imageRef = new Firebase(configService.data.imagensRef+'/'+$routeParams.id);
+				var imageRef = firebase.database().ref(configService.data.imagensRef+'/'+$routeParams.id);
 					imageRef.on("value", function(snapshot) {
 						console.log(snapshot.val().data);
 					  $scope.pageImage = snapshot.val().data;
@@ -85,7 +85,7 @@ define(['app'], function(app){
 	    	  		img.ownerCategoria = $scope.page.parentId;
 	    	  		img.state = $scope.page.state;
 
-	    	  	var imagesRef = new Firebase(configService.data.imagensRef+'/'+pageRef);
+	    	  	var imagesRef = firebase.database().ref(configService.data.imagensRef+'/'+pageRef);
 	    	  		imagesRef.set(img);
 	    	  }
 		}
@@ -104,28 +104,31 @@ define(['app'], function(app){
 		$scope.guardarPagina = function(){
 			$scope.page.parentNome = ($scope.page.parentId)? $scope.categorias.$getRecord($scope.page.parentId).nome : '';
 			$scope.page.state = ($scope.page.state)? $scope.page.state : 'available';
-			$scope.page.lastEditDate = Firebase.ServerValue.TIMESTAMP;
+			$scope.page.lastEditDate = firebase.database.ServerValue.TIMESTAMP;
 
 			if(!$scope.pageForm.$valid){ return; }
 
 			if($scope.state == 'save'){
 				$scope.paginas.$save($scope.page).then(function(ref) {
 	        	  setPageInfo('saved');
-	        	  var pageRef = ref.key();
+	        	  var pageRef = ref.key;
 	        	  saveImage(pageRef);
 				});
 			}
 
 			if($scope.state == 'add'){
 				$scope.page.slug = $scope.slug($scope.page.titulo);
-				$scope.page.creationDate = Firebase.ServerValue.TIMESTAMP;
+				$scope.page.creationDate = firebase.database.ServerValue.TIMESTAMP;
+
 				$scope.paginas.$add($scope.page).then(function(ref) {
-				  //console.log("added record with id " + ref.key());
+
+				  console.log("added record with id " + ref.key);
 	        	  setPageInfo('saved');
-	        	  $scope.page = $scope.paginas.$getRecord(ref.key());
+
+	        	  $scope.page = $scope.paginas.$getRecord(ref.key);
 	        	  $scope.state = 'save';
 
-	        	  var pageRef = ref.key();
+	        	  var pageRef = ref.key;
 	        	  saveImage(pageRef);
 				});
 			}
@@ -139,7 +142,7 @@ define(['app'], function(app){
 			$scope.page.state = 'trashed';
 			if($scope.state == 'save'){
 				$scope.paginas.$save($scope.page).then(function(ref) {
-					var pageRef = ref.key();
+					var pageRef = ref.key;
 					saveImage(pageRef);
 				});
 			}

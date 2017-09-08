@@ -7,7 +7,7 @@ define(['app'], function(app){
 		$scope.messages = {};
 
 		configService.load().then(function(appConfig){
-            var paginasRef = new Firebase(appConfig.paginasRef);
+            var paginasRef = firebase.database().ref(appConfig.paginasRef);
             	$scope.paginas = $firebaseArray(paginasRef);
         });
 

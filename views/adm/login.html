@@ -1,5 +1,8 @@
 <section ng-controller="loginCtrll">
 	<h1>Login Firebase CMS</h1>
+
+	<div ng-if="authError" class="alert alert-danger">{{authError}}</div>
+
 	<form ng-model="loginForm">
 	  <div class="form-group">
 	    <label for="exampleInputEmail1">Email</label>

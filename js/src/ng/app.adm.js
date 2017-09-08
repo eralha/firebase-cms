@@ -3,7 +3,8 @@ define([
     'services/dependencyResolverFor',
     'services/data-service',
     'services/recursionHelper',
-    'directives/main'
+    'directives/main',
+    'lib/angularfire.2.3.0.min'
     ], function(config, dependencyResolverFor)
 {
     var app = angular.module('app', ['ngRoute', 'firebase', 'slugifier', 'RecursionHelper', 'app.Services', 'app.Directives']);
@@ -53,13 +54,12 @@ define([
         var authData = null;
 
         configService.load().then(function(appConfig){
-            $rootScope.firebaseAuthRef = new Firebase(appConfig.firebaseRef);
             $scope.authData = null;
 
-            authObj = $firebaseAuth($rootScope.firebaseAuthRef);
+            authObj = $firebaseAuth();
             authData = authObj.$getAuth();
 
-            authObj.$onAuth(function(authData) {
+            authObj.$onAuthStateChanged(function(authData) {
               if (authData){
                 $scope.authData = authData;
                 //console.log("Logged in as:", authData.uid);
