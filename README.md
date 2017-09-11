@@ -50,6 +50,7 @@ Back-end: <a href="https://rawgit.com/eralha/firebase-cms/master/adm/index.html"
 
 <p>Firebase Rules:</p>
 ```
+
 	{
 	    "rules": {
 	        ".read": true,
