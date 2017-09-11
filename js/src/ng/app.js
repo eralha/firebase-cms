@@ -3,7 +3,9 @@ define(['ng/routes',
     'services/data-service',
     'services/recursionHelper',
     'directives/main',
-    'lib/angularfire.2.3.0.min'
+    'lib/angularfire.2.3.0.min',
+    'lib/ng-cookies',
+    'lib/slugify'
     ], function(config, dependencyResolverFor)
 {
 
