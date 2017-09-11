@@ -1,0 +1,37 @@
+{
+  "categorias" : {
+    "-KtXGrVSpVpjgcuTJ1Xe" : {
+      "creationDate" : 1504887404720,
+      "nome" : "asdsd",//Name of the item
+      "pai" : 0,//Id of parent "categorias", 0 if its a root item.
+      "slug" : "asdsd"
+    }
+    //Other "categorias" Items
+    //...
+  },
+  "imagens" : {
+    "-KtXHi-ltF1lg7xhyc3_" : {
+      "data" : "data:image/png;base64,iVBORw0...",//DATA OF IMAGE IN BASE64 ENCODED
+      "owner" : "-KtXHi-ltF1lg7xhyc3_",//Key for "paginas" owning this item
+      "ownerCategoria" : "-KtXGrVSpVpjgcuTJ1Xe", //Key for "categorias" that the owner is associated, this is usefull for loading imagens on the page list view
+      "state" : "available" //If this image is available or not
+    }
+    //Other "imagens" Items
+    //...
+  },
+  "paginas" : {
+    "-KtXHi-ltF1lg7xhyc3_" : {
+      "content" : "sfsfd", //Text content
+      "creationDate" : 1504887627974,
+      "descricao" : "sfsdf", //Short description
+      "lastEditDate" : 1504888119757,
+      "parentId" : "-KtXGrVSpVpjgcuTJ1Xe", //Key for "categorias" that this item is associated
+      "parentNome" : "asdsd", //Name for "categorias" that this item is associated
+      "slug" : "sadfsfd", //Slug generated based on the name
+      "state" : "available", //State of the item
+      "titulo" : "sadfsfd"//Title
+    }
+    //Other "paginas" Items
+    //...
+  }
+}
