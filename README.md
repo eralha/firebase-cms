@@ -45,11 +45,11 @@ Back-end: <a href="https://rawgit.com/eralha/firebase-cms/master/adm/index.html"
 	<li>Create a firebase account</li>
 	<li>Create a firebase app</li>
 	<li>Add the following firebase rules</li>
-	<li>Configure the file js/config.json with your firebase app location</li>
+	<li>Configure your firebase account on [index.html](https://github.com/eralha/firebase-cms/blob/master/index.html#L29)</li>
 </ul>
 
 <p>Firebase Rules:</p>
-```
+```javascript
 	{
 	    "rules": {
 	        ".read": true,
@@ -76,5 +76,5 @@ Back-end: <a href="https://rawgit.com/eralha/firebase-cms/master/adm/index.html"
 	<li>Add internationalization capabilities</li>
 	<li>Remove from codebase any portuguese sentences/words</li>
 	<li>Add capabilities of have dynamic fields</li>
-	<li>Add response for bad login</li>
+	<li>Update config.json</li>
 </ul>
