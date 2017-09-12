@@ -45,7 +45,7 @@ Back-end: <a href="https://rawgit.com/eralha/firebase-cms/master/adm/index.html"
 	<li>Create a firebase account</li>
 	<li>Create a firebase app</li>
 	<li>Add the following firebase rules</li>
-	<li>Configure your firebase account on [index.html](https://github.com/eralha/firebase-cms/blob/master/index.html#L29)</li>
+	<li>Configure your firebase account on https://github.com/eralha/firebase-cms/blob/master/index.html#L29</li>
 </ul>
 
 <p>Firebase Rules:</p>
