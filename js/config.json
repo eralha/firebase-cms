@@ -1,6 +1,5 @@
 [{
-  "firebaseRef"		: "",
-  "categoriasRef"	: "categorias",
-  "imagensRef"	: "imagens",
-  "paginasRef"		: "paginas"
+  "categoriesRef"	: "categorias",
+  "imagesRef"	: "imagens",
+  "pagesRef"		: "paginas"
 }]

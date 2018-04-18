@@ -7,10 +7,10 @@ define(['app'], function(app){
 		$scope.state = 'add';
 
 		configService.load().then(function(appConfig){
-            var categoriasRef = firebase.database().ref(appConfig.categoriasRef);
-				$scope.categorias = $firebaseArray(categoriasRef);
+            var categoriesRef = firebase.database().ref(appConfig.categoriesRef);
+				$scope.categorias = $firebaseArray(categoriesRef);
 
-			var paginasRef = firebase.database().ref(appConfig.paginasRef);
+			var paginasRef = firebase.database().ref(appConfig.pagesRef);
 				paginasRef.orderByChild("state").startAt('available').endAt('available').on("value", function(snapshot) {
 				  //console.log(snapshot.val());
 				});
@@ -25,9 +25,13 @@ define(['app'], function(app){
 				var page = $scope.paginas.$getRecord($routeParams.id);
 				$scope.page = (page)? page : {};
 
-				var imageRef = firebase.database().ref(configService.data.imagensRef+'/'+$routeParams.id);
+				var imageRef = firebase.database().ref(configService.data.imagesRef+'/'+$routeParams.id);
 					imageRef.on("value", function(snapshot) {
 						console.log(snapshot.val().data);
+
+					  //empty case
+					  if(!snapshot.val()){ return; }
+					  
 					  $scope.pageImage = snapshot.val().data;
 					  setTimeout(function(){$scope.$apply();}, 500);
 					});
@@ -85,7 +89,7 @@ define(['app'], function(app){
 	    	  		img.ownerCategoria = $scope.page.parentId;
 	    	  		img.state = $scope.page.state;
 
-	    	  	var imagesRef = firebase.database().ref(configService.data.imagensRef+'/'+pageRef);
+	    	  	var imagesRef = firebase.database().ref(configService.data.imagesRef+'/'+pageRef);
 	    	  		imagesRef.set(img);
 	    	  }
 		}

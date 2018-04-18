@@ -30,6 +30,7 @@
 	    </tr>
 	  </table>
 
-	  <p ng-if="filtered.length == 0">There are no pages to show!</p>
+		<p ng-if="filtered.length == 0 && !loading">There are no pages to show!</p>
+		<p ng-if="loading">Loading data.</p>
 
 </section>

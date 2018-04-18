@@ -3,8 +3,18 @@ define(['app'], function(app){
 	app.controller('categoriasCtrll', ['$scope', '$firebaseArray', 'Slug', 'configService', function($scope, $firebaseArray, Slug, configService){
 
 		configService.load().then(function(appConfig){
-            var categoriasRef = firebase.database().ref(appConfig.categoriasRef);
-			$scope.categorias = $firebaseArray(categoriasRef);
+            var categoriesRef = firebase.database().ref(appConfig.categoriesRef);
+			$scope.categorias = $firebaseArray(categoriesRef);
+
+			$scope.loading = true;
+			$scope.categorias.$loaded().then(function(x) {
+				console.log("Success");
+				$scope.loading = false;
+			}).catch(function(error) {
+				console.error("Error:", error);
+				$scope.loading = false;
+				$scope.categorias = [];
+			});
         });
 
 		$scope.editing = {};

@@ -54,6 +54,7 @@
 	    </tr>
 	  </table>
 
-	  <p ng-if="categorias.length == 0">There is no categories to list.</p>
+		<p ng-if="categorias.length == 0 && !loading">There is no categories to list.</p>
+		<p ng-if="loading">Loading data.</p>
 
 </section>

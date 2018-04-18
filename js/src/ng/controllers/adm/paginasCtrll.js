@@ -6,9 +6,19 @@ define(['app'], function(app){
 		$scope.state = 'available';
 		$scope.messages = {};
 
+		$scope.loading = true;
 		configService.load().then(function(appConfig){
-            var paginasRef = firebase.database().ref(appConfig.paginasRef);
-            	$scope.paginas = $firebaseArray(paginasRef);
+            var paginasRef = firebase.database().ref(appConfig.pagesRef);
+				$scope.paginas = $firebaseArray(paginasRef);
+				
+				$scope.paginas.$loaded().then(function(x) {
+					console.log("Success");
+					$scope.loading = false;
+				}).catch(function(error) {
+					console.error("Error:", error);
+					$scope.loading = false;
+					$scope.paginas = [];
+				});
         });
 
 			/*

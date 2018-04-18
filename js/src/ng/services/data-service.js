@@ -39,32 +39,32 @@ define([], function()
       this.categorias = null;
       this.paginas = null;
 
-      var categoriasRef = null;
+      var categoriesRef = null;
       var imagesArr = {};
-      var paginasRef = null;
+      var pagesRef = null;
       var loadedPaginas = null;
-      var loadedCategorias = null;
+      var loadedCategories = null;
 
 
       this.loadData = function(){
         var defer = $q.defer();
 
-        if(loadedPaginas == null || loadedCategorias == null){
+        if(loadedPaginas == null || loadedCategories == null){
           configService.load().then(function(data){
 
-            categoriasRef = firebase.database().ref(data.categoriasRef);
-            paginasRef = firebase.database().ref(data.paginasRef);
+            categoriesRef = firebase.database().ref(data.categoriesRef);
+            pagesRef = firebase.database().ref(data.pagesRef);
 
-            var onValue = categoriasRef.on('value', function(dataSnapshot) {
-              loadedCategorias = dataSnapshot.val();
-              categoriasRef.off('value', onValue);
+            var onValue = categoriesRef.on('value', function(dataSnapshot) {
+              loadedCategories = dataSnapshot.val();
+              categoriesRef.off('value', onValue);
 
-              var onValue = paginasRef.orderByChild("state").startAt('available').endAt('available').on('value', function(dataSnapshot) {
-                paginasRef.off('value', onValue);
+              var onValue = pagesRef.orderByChild("state").startAt('available').endAt('available').on('value', function(dataSnapshot) {
+                pagesRef.off('value', onValue);
                 firebase.database().goOffline();
                 loadedPaginas = dataSnapshot.val();
 
-                defer.resolve({categorias: angular.copy(loadedCategorias), paginas: angular.copy(loadedPaginas)});
+                defer.resolve({categorias: angular.copy(loadedCategories), paginas: angular.copy(loadedPaginas)});
               });
             });
           });
@@ -72,7 +72,7 @@ define([], function()
           return defer.promise;
         }
 
-        defer.resolve({categorias: angular.copy(loadedCategorias), paginas: angular.copy(loadedPaginas)});
+        defer.resolve({categorias: angular.copy(loadedCategories), paginas: angular.copy(loadedPaginas)});
 
         return defer.promise;
       }
@@ -83,7 +83,7 @@ define([], function()
           configService.load().then(function(data){
             firebase.database().goOnline();
 
-            var imagesRef = firebase.database().ref(data.imagensRef);
+            var imagesRef = firebase.database().ref(data.imagesRef);
                 var onValue = imagesRef.orderByChild("ownerCategoria").startAt(categoriaId).endAt(categoriaId).on("value", function(snapshot) {
                   imagesRef.off('value', onValue);
                   firebase.database().goOffline();
@@ -109,13 +109,13 @@ define([], function()
 
         configService.load().then(function(data){
 
-          var imagesRef = firebase.database().ref(data.imagensRef);
+          var imagesRef = firebase.database().ref(data.imagesRef);
           var onValue = imagesRef.orderByChild("owner").startAt(pageId).endAt(pageId).on("value", function(snapshot) {
             imagesRef.off('value', onValue);
 
             var pageImages = snapshot.val();
             for(i in pageImages){
-              var ref = firebase.database().ref(data.imagensRef+'/'+i);
+              var ref = firebase.database().ref(data.imagesRef+'/'+i);
                   ref.remove();
                   deletedImages.push(i);
             }
